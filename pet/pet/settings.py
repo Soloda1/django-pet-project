@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'sorl.thumbnail',
+
     'shop.apps.ShopConfig',
 ]
 
@@ -53,6 +55,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                #custom context processors
+                'shop.context_processors.categories',
             ],
         },
     },

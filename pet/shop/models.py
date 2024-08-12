@@ -47,20 +47,16 @@ class Product(models.Model):
     A model representing a product.
 
     """
-    category = models.ForeignKey(
-        Category, on_delete=models.CASCADE, related_name='products')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     title = models.CharField("Название", max_length=250)
     brand = models.CharField("Бренд", max_length=250)
     description = models.TextField("Описание", blank=True)
     slug = models.SlugField('URL', max_length=250)
-    price = models.DecimalField(
-        "Цена", max_digits=7, decimal_places=2, default=99.99)
-    image = models.ImageField(
-        "Изображение", upload_to='products/products/%Y/%m/%d')
+    price = models.DecimalField("Цена", max_digits=7, decimal_places=2, default=99.99)
+    image = models.ImageField("Изображение", upload_to='products/products/%Y/%m/%d')
     available = models.BooleanField("Наличие", default=True)
     created_at = models.DateTimeField('Дата создания', auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField('Дата изменения', auto_now=True)
-
 
     class Meta:
         verbose_name = 'Продукт'
