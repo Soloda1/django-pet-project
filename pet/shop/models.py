@@ -38,8 +38,8 @@ class Category(models.Model):
 
         super(Category, self).save(*args, **kwargs)
 
-    # def get_absolute_url(self):
-    #     return reverse('shop:category', kwargs={'slug': self.slug})
+    def get_absolute_url(self):
+        return reverse('shop:category_list', kwargs={'category_slug': self.slug})
 
 
 class Product(models.Model):
@@ -66,8 +66,8 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
-    # def get_absolute_url(self):
-    #     return reverse("shop:product-detail", args=[str(self.slug)])
+    def get_absolute_url(self):
+        return reverse("shop:product_detail", kwargs={'product_slug': self.slug})
 
     # def get_discounted_price(self):
     #     """

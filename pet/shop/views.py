@@ -14,7 +14,6 @@ class ProductsView(ListView):
     model = ProductProxy
     template_name = 'shop/products.html'
     context_object_name = 'products'
-
     title_page = "Главная страница"
 
 
