@@ -98,37 +98,38 @@
 
     <br>
 
-    {% include 'recommend/recommendation.html' %}
+<!--    вернуть теги чтоб работало-->
+    include 'recommend/recommendation.html'
 
 </div>
 
 <script>
-    $(document).on('click', '#add-button', function (e) {
-        e.preventDefault();
-
-        $.ajax({
-            type: 'POST',
-            url: '{% url "cart:add-to-cart" %}',
-            data: {
-                product_id: $('#add-button').val(),
-                product_qty: $('#select option:selected').text(),
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-                action: 'post'
-            },
-            success: function (response) {
-                document.getElementById('lblCartCount').textContent = response.qty
-                const add_button = document.getElementById('add-button')
-                add_button.disabled = true
-                add_button.innerText = "Added to cart"
-                add_button.className = "btn btn-success btn-sm"
-
-            },
-            error: function (error) {
-                console.log(error)
-            }
-        })
-
-    })
+    // $(document).on('click', '#add-button', function (e) {
+    //     e.preventDefault();
+    //
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: ' url "cart:add-to-cart" ',
+    //         data: {
+    //             product_id: $('#add-button').val(),
+    //             product_qty: $('#select option:selected').text(),
+    //             csrfmiddlewaretoken: '{{ csrf_token }}',
+    //             action: 'post'
+    //         },
+    //         success: function (response) {
+    //             document.getElementById('lblCartCount').textContent = response.qty
+    //             const add_button = document.getElementById('add-button')
+    //             add_button.disabled = true
+    //             add_button.innerText = "Added to cart"
+    //             add_button.className = "btn btn-success btn-sm"
+    //
+    //         },
+    //         error: function (error) {
+    //             console.log(error)
+    //         }
+    //     })
+    //
+    // })
 
 
 </script>

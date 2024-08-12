@@ -79,13 +79,13 @@ class Product(models.Model):
     #     discounted_price = self.price - (self.price * self.discount / 100)
     #     return round(discounted_price, 2)
 
-    # @property
-    # def full_image_url(self):
-    #     """
-    #     Returns:
-    #         str: The full image URL.
-    #     """
-    #     return self.image.url if self.image else ''
+    @property
+    def full_image_url(self):
+        """
+        Returns:
+            str: The full image URL.
+        """
+        return self.image.url if self.image else ''
 
 
 class ProductManager(models.Manager):
