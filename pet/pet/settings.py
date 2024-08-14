@@ -28,8 +28,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'sorl.thumbnail',
-
+    #my APPS
     'shop.apps.ShopConfig',
+    'cart.apps.CartConfig',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,7 @@ TEMPLATES = [
 
                 #custom context processors
                 'shop.context_processors.categories',
+                'cart.context_processors.cart',
             ],
         },
     },
@@ -98,8 +100,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
+LANGUAGE_CODE = 'ru-ru'
 
-LANGUAGE_CODE = 'ru-ri'
 
 TIME_ZONE = 'Europe/Moscow'
 

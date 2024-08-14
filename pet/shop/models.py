@@ -8,10 +8,6 @@ from django.utils.text import slugify
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
-def rand_slug():
-    return ''.join(random.choices(string.ascii_lowercase + string.digits) for _ in range(3))
-
-
 class Category(models.Model):
     name = models.CharField('Категория',max_length=250, db_index=True)
     parent = models.ForeignKey(verbose_name='Родительская категория',  to='self', null=True, blank=True, related_name='children', on_delete=models.CASCADE)
@@ -32,10 +28,13 @@ class Category(models.Model):
 
         return ' > '.join(full_path[::-1])
 
+    @staticmethod
+    def _rand_slug():
+        return ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(3))
+
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(rand_slug()+'-pickBetter'+self.name)
-
+            self.slug = slugify(self._rand_slug() + '-pickBetter' + self.name)
         super(Category, self).save(*args, **kwargs)
 
     def get_absolute_url(self):

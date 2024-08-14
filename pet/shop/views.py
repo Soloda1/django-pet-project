@@ -1,5 +1,3 @@
-from django.contrib.auth import login, logout
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import *
 from django.db.models import F, Value
 from django.shortcuts import render, redirect, get_object_or_404
