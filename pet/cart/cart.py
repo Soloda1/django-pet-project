@@ -16,6 +16,20 @@ class Cart():
     def __len__(self):
         return sum(item['qty'] for item in self.cart.values())
 
+    def __iter__(self):
+        products_ids = self.cart.keys()
+        products = ProductProxy.objects.filter(id__in=products_ids)
+        cart = self.cart.copy()
+
+        for product in products:
+            cart[str(product.id)]['product'] = product
+
+        for item in cart.values():
+            item['price'] = Decimal(item['price'])
+            item['total'] = item['price'] * item['qty']
+            yield item
+
+
     def add(self, product, quantity):
         product_id = str(product.id)
 
@@ -25,4 +39,22 @@ class Cart():
         self.cart[product_id]['qty'] = quantity
 
         self.session.modified = True
+
+    def delete(self, product_id):
+        product_id = str(product_id)
+
+        if product_id in self.cart:
+            del self.cart[product_id]
+            self.session.modified = True
+
+    def update(self, product_id, quantity):
+        product_id = str(product_id)
+
+        if product_id in self.cart:
+            self.cart[product_id]['qty'] = quantity
+            self.session.modified = True
+
+    def get_total_price(self):
+        return sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
+
 
