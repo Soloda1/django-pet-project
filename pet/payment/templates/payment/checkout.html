@@ -108,9 +108,9 @@
             <br>
                 {% csrf_token %}
 
-           <button id="complete-order" type="submit" class="btn btn-primary navbar-btn text-white" name="complete-order" value="complete-order"> &nbsp; Complete order </button>
-{#           <button id="complete-order-stripe" type="submit" class="btn btn-primary navbar-btn text-white" name="stripe-payment" value="stripe-payment"> &nbsp; Pay with Stripe </button>#}
-{#           <button id="complete-order-yookassa" type="submit" class="btn btn-primary navbar-btn text-white" name="yookassa-payment" value="yookassa-payment"> &nbsp; Pay with YooKassa </button>#}
+
+           <button id="complete-order-stripe" type="submit" class="btn btn-primary navbar-btn text-white" name="stripe-payment" value="stripe-payment"> &nbsp; Pay with Stripe </button>
+           <button id="complete-order-yookassa" type="submit" class="btn btn-primary navbar-btn text-white" name="yookassa-payment" value="yookassa-payment"> &nbsp; Pay with YooKassa </button>
 
             <br>
 
@@ -125,33 +125,34 @@
     <br>
 </body>
 
-<script>
-$(document).on('submit', function (e) {
-    e.preventDefault();
-    $.ajax({
-        type: 'POST',
-        url: '{% url "payment:complete-order" %}',
-        data: {
-            name: $('#name').val(),
-            email: $('#email').val(),
-            street_address: $('#address1').val(),
-            apartment_address: $('#address2').val(),
-            city: $("#city").val(),
-            country: $("#country").val(),
-            zip_code: $("#zipcode").val(),
-            csrfmiddlewaretoken: '{{ csrf_token }}',
-            action: 'payment'
-        },
-        success: function (response) {
-            window.location.href = "{% url 'payment:payment-success' %}"
-        },
-        error: function (error) {
-            window.location.href = "{% url 'payment:payment-failed' %}"
-        }
-    })
-})
-
-
-</script>
+{#<script>#}
+{#    <button id="complete-order" type="submit" class="btn btn-primary navbar-btn text-white" name="complete-order" value="complete-order"> &nbsp; Complete order </button>#}
+{#$(document).on('submit', function (e) {#}
+{#    e.preventDefault();#}
+{#    $.ajax({#}
+{#        type: 'POST',#}
+{#        url: '{% url "payment:complete-order" %}',#}
+{#        data: {#}
+{#            name: $('#name').val(),#}
+{#            email: $('#email').val(),#}
+{#            street_address: $('#address1').val(),#}
+{#            apartment_address: $('#address2').val(),#}
+{#            city: $("#city").val(),#}
+{#            country: $("#country").val(),#}
+{#            zip_code: $("#zipcode").val(),#}
+{#            csrfmiddlewaretoken: '{{ csrf_token }}',#}
+{#            action: 'payment'#}
+{#        },#}
+{#        success: function (response) {#}
+{#            window.location.href = "{% url 'payment:payment-success' %}"#}
+{#        },#}
+{#        error: function (error) {#}
+{#            window.location.href = "{% url 'payment:payment-failed' %}"#}
+{#        }#}
+{#    })#}
+{#})#}
+{##}
+{##}
+{#</script>#}
 
 {% endblock %}
