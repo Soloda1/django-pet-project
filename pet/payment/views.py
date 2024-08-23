@@ -51,14 +51,17 @@ def payment_failed(request):
 
 def checkout(request):
     if request.user.is_authenticated:
-        shipping_address, _ = ShippingAddress.objects.get_or_create(user=request.user)
-        return render(request, 'payment/checkout.html', {'shipping_address': shipping_address})
+        try:
+            shipping_address = ShippingAddress.objects.get(user=request.user)
+            return render(request, 'payment/checkout.html', {'shipping_address': shipping_address})
+        except ShippingAddress.DoesNotExist:
+            return redirect('payment:shipping')
     return render(request, 'payment/checkout.html')
 
 
 def complete_order(request):
     if request.method == 'POST':
-        payment_type = request.POST.get('stripe-payment','yookassa-payment')
+        payment_type = request.POST.get('stripe-payment', 'yookassa-payment')
         name = request.POST.get('name')
         email = request.POST.get('email')
         street_address = request.POST.get('street_address')
@@ -69,18 +72,19 @@ def complete_order(request):
         cart = Cart(request)
         total_price = cart.get_total_price()
 
+        shipping_address, _ = ShippingAddress.objects.get_or_create(user=request.user,
+            defaults={
+                'full_name': name,
+                'email': email,
+                'street_address': street_address,
+                'city': city,
+                'apartment_address': apartment_address,
+                'country': country,
+                'zip_code': zip_code,
+        })
+
         match payment_type:
             case 'stripe-payment':
-                shipping_address, _ = ShippingAddress.objects.get_or_create(user=request.user,
-                defaults={
-                    'full_name': name,
-                    'email': email,
-                    'street_address': street_address,
-                    'city': city,
-                    'apartment_address': apartment_address,
-                    'country': country,
-                    'zip_code': zip_code,
-                })
 
                 session_data = {
                     'mode': 'payment',
@@ -89,14 +93,12 @@ def complete_order(request):
                     'line_items': []
                 }
 
-
-
-
                 if request.user.is_authenticated:
                     order = Order.objects.create(user=request.user, shipping_address=shipping_address, amount=total_price)
 
                     for item in cart:
                         OrderItem.objects.create(order=order, product=item['product'], price=item['price'], quantity=item['qty'], user=request.user)
+
                         session_data['line_items'].append({
                             'price_data': {
                                 'currency': 'usd',
@@ -107,13 +109,29 @@ def complete_order(request):
                             'quantity': item['qty'],
                         })
 
-                        session = stripe.checkout.Session.create(**session_data)
-                        return redirect(session.url)
+                    session_data['client_reference_id'] = order.id
+                    session = stripe.checkout.Session.create(**session_data)
+                    return redirect(session.url)
+
                 else:
                     order = Order.objects.create(shipping_address=shipping_address, amount=total_price)
 
                     for item in cart:
                         OrderItem.objects.create(order=order, product=item['product'], price=item['price'], quantity=item['qty'])
+
+                        session_data['line_items'].append({
+                            'price_data': {
+                                'currency': 'usd',
+                                'unit_amount': int(item['price'] * Decimal(100)),
+                                'product_data': {'name': item['product'], },
+
+                            },
+                            'quantity': item['qty'],
+                        })
+
+                    session_data['client_reference_id'] = order.id
+                    session = stripe.checkout.Session.create(**session_data)
+                    return redirect(session.url)
 
 
             case 'yookassa-payment':

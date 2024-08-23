@@ -4,8 +4,8 @@
     <div class="col">
         <a class="text-black text-decoration-none fs-4" href="{{product.get_absolute_url}}">
             <div class="card shadow-sm h-100">
-                {% thumbnail product.image "400x400" as im %}
-                <img class="img-fluid h-100" alt="Responsive image" src="{{ im.url }}" />
+                {% thumbnail product.image "400x400" as img %}
+                <img class="img-fluid h-100" alt="Responsive image" src="{{ img.url }}" />
                 {% endthumbnail %}
                 <div class="card-body">
                     <p class="card-text">

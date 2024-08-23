@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure--1ppyw$n&q(wg@$fp5qtcfhd$gwb%gqjuu*zn&%i8wt!(^5807
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -190,7 +190,8 @@ EMAIL_USE_TLS = True
 STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
 STRIPE_API_VERSION = env('STRIPE_API_VERSION')
+STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
 
 #google fonts
-GOOGLE_FONTS = ['Montserrat:wght@300,400', 'Roboto']
+GOOGLE_FONTS = ['Montserrat:wght@300', 'Roboto']
 GOOGLE_FONTS_DIR = BASE_DIR / 'static'
