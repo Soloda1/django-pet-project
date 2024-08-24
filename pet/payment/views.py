@@ -1,15 +1,20 @@
 import uuid
 from decimal import Decimal
+import os
 
+GTK_FOLDER = r'C:\Program Files\GTK3-Runtime Win64\bin'
+os.environ['PATH'] = GTK_FOLDER + os.pathsep + os.environ.get('PATH', '')
 import stripe
+import weasyprint
 from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.templatetags.static import static
 from django.urls import reverse
+
 
 from cart.cart import Cart
 from .forms import *
@@ -17,6 +22,22 @@ from .models import *
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe.api_version = settings.STRIPE_API_VERSION
+
+
+@staff_member_required
+def admin_order_pdf(request, order_id):
+    try:
+        order = Order.objects.select_related('user', 'shipping_address').get(id=order_id)
+    except Order.DoesNotExist:
+        raise Http404('Заказ не найден')
+    html = render_to_string('payment/order/pdf/pdf_invoice.html',
+                            {'order': order})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename=order_{order.id}.pdf'
+    css_path = static('payment/css/pdf.css').lstrip('/')
+    stylesheets = [weasyprint.CSS(css_path)]
+    weasyprint.HTML(string=html).write_pdf(response, stylesheets=stylesheets)
+    return response
 
 
 @login_required(login_url='account:login')
@@ -41,7 +62,8 @@ def shipping(request):
 
 def payment_success(request):
     for key in list(request.session.keys()):
-        del request.session[key]
+        if key == 'session_key':
+            del request.session[key]
     return render(request, 'payment/payment-success.html')
 
 
