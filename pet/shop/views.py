@@ -10,9 +10,14 @@ from .models import *
 
 class ProductsView(ListView):
     model = ProductProxy
-    template_name = 'shop/products.html'
+    paginate_by = 15
     context_object_name = 'products'
     title_page = "Главная страница"
+
+    def get_template_names(self):
+        if self.request.htmx:
+            return 'shop/components/product_list.html'
+        return 'shop/products.html'
 
 
 class ProductDetailView(DetailView):
@@ -29,6 +34,11 @@ def category_list(request, category_slug):
     return render(request, 'shop/category_list.html', context)
 
 
-def search_products(request, product_slug):
-    pass
+def search_products(request):
+    query = request.GET.get('q')
+    products = ProductProxy.objects.filter(title__icontains=query).distinct()
+    context = {'products': products}
+    if not query or not products:
+        return redirect('shop:products')
+    return render(request, 'shop/products.html', context)
 

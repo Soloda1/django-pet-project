@@ -1,6 +1,9 @@
 {% load thumbnail%}
 
 {% for product in products %}
+    {% if forloop.last %}
+        <div class="col" hx-get="{% url 'shop:products' %}?page={{ page_obj.number|add:1 }}" hx-trigger="revealed" hx-swap="afterend"></div>
+    {% else %}
     <div class="col">
         <a class="text-black text-decoration-none fs-4" href="{{product.get_absolute_url}}">
             <div class="card shadow-sm h-100">
@@ -18,4 +21,5 @@
             </div>
         </a>
     </div>
+    {% endif %}
 {% endfor %}

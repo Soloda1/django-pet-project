@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django_google_fonts',
     'django_celery_beat',
     'django_celery_results',
+    'django_htmx',
 
     #my APPS
     'shop.apps.ShopConfig',
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]

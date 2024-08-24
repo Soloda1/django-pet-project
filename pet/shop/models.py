@@ -42,20 +42,17 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    """
-    A model representing a product.
-
-    """
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     title = models.CharField("Название", max_length=250)
     brand = models.CharField("Бренд", max_length=250)
     description = models.TextField("Описание", blank=True)
     slug = models.SlugField('URL', max_length=250)
     price = models.DecimalField("Цена", max_digits=7, decimal_places=2, default=99.99)
-    image = models.ImageField("Изображение", upload_to='products/products/%Y/%m/%d')
+    image = models.ImageField("Изображение", upload_to='images/products/%Y/%m/%d', default='images/default.jpg')
     available = models.BooleanField("Наличие", default=True)
     created_at = models.DateTimeField('Дата создания', auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField('Дата изменения', auto_now=True)
+    discount = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
 
     class Meta:
         verbose_name = 'Продукт'
@@ -68,22 +65,12 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse("shop:product_detail", kwargs={'product_slug': self.slug})
 
-    # def get_discounted_price(self):
-    #     """
-    #     Calculates the discounted price based on the product's price and discount.
-    #
-    #     Returns:
-    #         decimal.Decimal: The discounted price.
-    #     """
-    #     discounted_price = self.price - (self.price * self.discount / 100)
-    #     return round(discounted_price, 2)
+    def get_discounted_price(self):
+        discounted_price = self.price - (self.price * self.discount / 100)
+        return round(discounted_price, 2)
 
     @property
     def full_image_url(self):
-        """
-        Returns:
-            str: The full image URL.
-        """
         return self.image.url if self.image else ''
 
 
