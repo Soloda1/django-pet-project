@@ -2,8 +2,8 @@ import uuid
 from decimal import Decimal
 import os
 
-GTK_FOLDER = r'C:\Program Files\GTK3-Runtime Win64\bin'
-os.environ['PATH'] = GTK_FOLDER + os.pathsep + os.environ.get('PATH', '')
+# GTK_FOLDER = r'C:\Program Files\GTK3-Runtime Win64\bin' #раскоментить если не работает
+# os.environ['PATH'] = GTK_FOLDER + os.pathsep + os.environ.get('PATH', '')
 import weasyprint
 import stripe
 from django.conf import settings
