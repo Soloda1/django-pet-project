@@ -1,3 +1,8 @@
+## Django Pet Project Shop
+
+## Description
+Django Pet Project Shop is a Django ecommerce project with an API and various features.
+
 ## Technologies Used
 This project is built using the following technologies:
 - Python
