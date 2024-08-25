@@ -1,6 +1,7 @@
 ## Technologies Used
 This project is built using the following technologies:
 - Python
+- Django
 - JavaScript
 - Ajax
 - CSS
@@ -24,7 +25,7 @@ This project is built using the following technologies:
 - Git
 
 
-## License
-This project is open source.
 
-This project is a work in progress and will be improved further.
+## This project is open source.
+
+## This project is a work in progress and will be improved further.
