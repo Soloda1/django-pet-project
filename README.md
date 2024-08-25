@@ -6,18 +6,17 @@ This project is built using the following technologies:
 - CSS
 - HTML
 - Postgres
+- Celery
 - Celery Beat
 - Celery Result
-- Celery
+- Celery Flower
 - Redis Broker
 - Django Htmx
 - Nginx
 - Gunicorn
 - API
 - Swagger and Redoc Docs
-- Celery Flower
 - Stripe
-- Yookassa
 - Django Rest Framework
 - Docker
 - Docker Compose
