@@ -31,8 +31,8 @@
 
                             <div class="col-6 text-end">
                                 {%if product.discount%}
-                                <span class="text-decoration-line-through fw-bold text-danger">$</span>
-                                <span class="h6 fw-bold">$ </span>
+                                <span class="text-decoration-line-through fw-bold text-danger">$ {{ product.price|mul:item.qty }}</span>
+                                <span class="h6 fw-bold">$ {{ product.get_discounted_price|mul:item.qty }}</span>
                                 {% else%}
                                 <span class="h6 fw-bold">$ {{product.price|mul:item.qty}}</span>
                                 {% endif%}
