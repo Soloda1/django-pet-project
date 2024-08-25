@@ -1,4 +1,4 @@
-
+from datetime import timedelta
 from pathlib import Path
 import environ
 
@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'django_celery_results',
     'django_htmx',
+    'rest_framework',
+    'djoser',
+    'drf_yasg',
 
     #my APPS
     'shop.apps.ShopConfig',
@@ -47,6 +50,7 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'payment.apps.PaymentConfig',
     'recommend.apps.RecommendConfig',
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
@@ -217,3 +221,28 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
 CELERY_WORKER_CONCURRENCY = 4  # Задайте количество рабочих
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    "DEFAULT_PERMISSION_CLASSES": [
+        "api.permissions.IsAdminOrReadOnly",
+    ],
+    "DEFAULT_PAGINATION_CLASS": "api.pagination.StandardResultsSetPagination",
+    "PAGE_SIZE": 15,
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
+
+DJOSER = {
+    "LOGIN_FIELD": "email",
+    "SERIALIZERS": {
+        "user_create": "api.serializers.CustomUserCreateSerializer",
+    },
+    'AUTH_HEADER_TYPES': ('JWT',),
+
+}
