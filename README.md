@@ -18,7 +18,7 @@ This project is built using the following technologies:
 - **Celery Beat**: For scheduling periodic tasks.
 - **Celery Result**: For tracking task results.
 - **Celery Flower**: For monitoring Celery tasks.
-- **Redis Broker**: As a message broker for Celery.
+- **Redis**: As a message broker for Celery and a cache.
 - **Nginx**: As a web server and reverse proxy.
 - **Gunicorn**: For running the application.
 - **API Documentation**: Using Swagger and Redoc.
