@@ -31,6 +31,6 @@ This project is built using the following technologies:
 This project is open source, and you are welcome to explore, use, and contribute to its development.
 
 ## Project Status
-This project is a work in progress and will be improved further. Stay tuned for updates!
+This project is a work in progress and will be improved further.
 
 ---
