@@ -1,4 +1,2 @@
-# Указываем GitHub не учитывать JavaScript файлы в статистике языков
 *.css linguist-language=Python
-*.html linguist-language=Python
 
