@@ -12,7 +12,6 @@ services:
     env_file: .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    restart: always
 
   backend:
     build: ./pet
@@ -27,7 +26,6 @@ services:
       - 8000:8000
     links:
       - db
-    restart: always
     command: sh -c "python3 manage.py makemigrations &&
                     python3 manage.py migrate &&
                     python3 manage.py collectstatic --noinput &&
@@ -47,7 +45,6 @@ services:
       - redis
     volumes:
       - static_data:/app/static
-    restart: always
     command: celery -A pet worker --loglevel=info --beat
 
   nginx:
@@ -59,4 +56,3 @@ services:
       - media_data:/app/media
     ports:
       - 80:80
-    restart: always
